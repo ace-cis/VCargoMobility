@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+            xmlns:local="clr-namespace:VCargoMobility.ViewModels"  
+            xmlns:model="clr-namespace:VCargoMobility.Models" 
+            xmlns:effects="clr-namespace:VCargoMobility.Effects"
+            Shell.NavBarHasShadow ="False"
+            Shell.TabBarBackgroundColor="Transparent"
+            x:Class="VCargoMobility.Views.SP_Page">
+    <Shell.TitleView >
+        <Image Source="VCargo.png" BackgroundColor="White" ></Image>
+    </Shell.TitleView>
+    <ContentPage x:Name="TMDM" Title="TM / DM">
+        <StackLayout BackgroundColor="Transparent"  >
+            <RefreshView   x:DataType="local:SP_ViewModel"  Command="{Binding LoadPendingDocuments}" IsRefreshing="{Binding IsBusy ,Mode=OneWay}"  >
+                <CollectionView   x:Name="TMDMList"
+                         
+                        ItemsSource="{Binding DeliveredDocuments}"
+                        SelectionMode="Single" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate  >
+                            <StackLayout   Padding="3" x:DataType="model:Delivered">
+                                <Grid x:Name="DRGrid" RowSpacing="0"
+                                          ColumnSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition  Height="16"/>
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Color="LightGray" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="3"   VerticalOptions="FillAndExpand"  ></BoxView>
+
+                                    <Label Margin="0" Grid.Row="1" Text="{Binding OrderRefNo,Mode=TwoWay }" 
+                                            LineBreakMode="NoWrap" 
+                                            HorizontalTextAlignment="Center" 
+                                           VerticalTextAlignment="Start" 
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16" FontAttributes="Bold"  />
+                                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding OrdeConsignee}" 
+                                            LineBreakMode="WordWrap" 
+                                           HorizontalTextAlignment="Start"  
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="1" Grid.Column="3" Text="{Binding OrderDate}  " 
+                                            LineBreakMode="WordWrap"
+                                           HorizontalTextAlignment="Center"   
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDestination}" 
+                                            LineBreakMode="NoWrap" 
+                                           HorizontalTextAlignment="Center"   
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Button MinimumWidthRequest="20" AutomationId="{Binding OrderRefNo}"  Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=UpdateDeliveryCommand}"		
+                                                CommandParameter="{Binding .}" CornerRadius="5"   Text="Transfer" Grid.Row="1" Grid.Column="4" />
+                                </Grid>
+                                <StackLayout.GestureRecognizers >
+                                    <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=ItemTapped}"		
+                                                CommandParameter="{Binding .}">
+
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage x:Name="TTC" Title="Transfer to Carrier">
+        <StackLayout BackgroundColor="Transparent"  >
+            <RefreshView    x:DataType="local:SP_ViewModel"   Command="{Binding LoadPendingDocuments}" IsRefreshing="{Binding IsBusy ,Mode=OneWay}"  >
+                <CollectionView   x:Name="TCTList"
+                         
+                        ItemsSource="{Binding TransferDocuments}"
+                        SelectionMode="Single" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate  >
+                            <StackLayout   Padding="3" x:DataType="model:Transfer">
+                                <Grid x:Name="DRGrid" RowSpacing="0"
+                                          ColumnSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition  Height="16"/>
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Color="LightGray" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="17"   VerticalOptions="FillAndExpand"  ></BoxView>
+
+                                    <Label Margin="0" Grid.Row="1" Text="{Binding OrderRefNo,Mode=TwoWay }" 
+                                            LineBreakMode="NoWrap" 
+                                            HorizontalTextAlignment="Center" 
+                                           VerticalTextAlignment="Start" 
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16" FontAttributes="Bold"  />
+                                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding OrdeConsignee}" 
+                                            LineBreakMode="WordWrap" 
+                                           HorizontalTextAlignment="Start"  
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="1" Grid.Column="3" Text="{Binding OrderDate}  " 
+                                            LineBreakMode="WordWrap"
+                                           HorizontalTextAlignment="Center"   
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDestination}" 
+                                            LineBreakMode="NoWrap" 
+                                           HorizontalTextAlignment="Center"   
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Button MinimumWidthRequest="20" AutomationId="{Binding OrderRefNo}"  Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=UpdatePendingCommand}"		
+                                                CommandParameter="{Binding .}" CornerRadius="5"   Text="Transfer" Grid.Row="1" Grid.Column="4" />
+                                    <Label Margin="0" Grid.Row="3"  Text="CARRIER :" 
+                                            LineBreakMode="NoWrap" 
+                                            HorizontalTextAlignment="Center" 
+                                           VerticalTextAlignment="Start" 
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16" FontAttributes="Bold"  />
+                                    <Picker x:Name="CourierPicker"    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel }}, Path=CarrierList,Mode=TwoWay }"
+                                            ItemDisplayBinding="{Binding CarrierName}"
+                                            Grid.Row="3" Grid.Column="2" SelectedIndexChanged="CourierPicker_SelectedIndexChanged"  Grid.ColumnSpan="2" BackgroundColor="WhiteSmoke" Title="Choose a Carrier" >
+                                        <Picker.Effects >
+                                            <effects:PlainEntry/>
+                                        </Picker.Effects>
+                                    </Picker>
+                                    <Label Margin="0" Grid.Row="5"  Text="MWAB No. :" 
+                                            LineBreakMode="NoWrap" 
+                                            HorizontalTextAlignment="Center" 
+                                           VerticalTextAlignment="Start" 
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16" FontAttributes="Bold"  />
+
+                                    <Entry  Grid.Row="5" Grid.Column="2" Text="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=MWABNo,Mode=TwoWay }" Grid.ColumnSpan="2" BackgroundColor="WhiteSmoke" IsEnabled="False"   >
+                                        <Entry.Effects >
+                                            <effects:PlainEntry/>
+                                        </Entry.Effects>
+                                    </Entry>
+                                    <ImageButton Grid.Row="5" Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=ScanCommand}" Grid.Column="3" VerticalOptions="End" HorizontalOptions="End"  Source="Scan.png" BackgroundColor="WhiteSmoke" HeightRequest="40" WidthRequest="40"  ></ImageButton>
+                                    <Button Grid.Row="7"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=UpdateCarrierCommand}"
+                                            Grid.Column="3" Text="Update" VerticalOptions="Center"  >
+                                    </Button>
+                                </Grid>
+                                <StackLayout.GestureRecognizers >
+                                    <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                         
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=ItemTapped}"		
+                                                CommandParameter="{Binding .}">
+
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage x:Name="Success" Title="Success" >
+        <StackLayout BackgroundColor="Transparent"   >
+            <RefreshView   x:DataType="local:SP_ViewModel"  Command="{Binding LoadPendingDocuments}" IsRefreshing="{Binding IsBusy ,Mode=OneWay}" >
+                <CollectionView   x:Name="SuccessList"
+                         
+                        ItemsSource="{Binding SuccessDocuments}"
+                        SelectionMode="Single" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate  >
+                            <StackLayout   Padding="3" x:DataType="model:Success">
+                                <Grid x:Name="DRGrid" RowSpacing="0"
+                                          ColumnSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition  Height="16"/>
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Color="LightGray" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="3"   VerticalOptions="FillAndExpand"  ></BoxView>
+
+                                    <Label Margin="0" Grid.Row="1" Text="{Binding OrderRefNo,Mode=TwoWay }" 
+                                            LineBreakMode="NoWrap" 
+                                            HorizontalTextAlignment="Center" 
+                                           VerticalTextAlignment="Start" 
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16" FontAttributes="Bold"  />
+                                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding OrdeConsignee}" 
+                                            LineBreakMode="WordWrap" 
+                                           HorizontalTextAlignment="Start"  
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="1" Grid.Column="3" Text="{Binding OrderDate}  " 
+                                            LineBreakMode="WordWrap"
+                                           HorizontalTextAlignment="Center"   
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDestination}" 
+                                            LineBreakMode="NoWrap" 
+                                           HorizontalTextAlignment="Center"   
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Button  MinimumWidthRequest="20" AutomationId="{Binding OrderRefNo}"  Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=UpdateSuccessCommand}"		
+                                                CommandParameter="{Binding .}" CornerRadius="5"   Text="Success" Grid.Row="1" Grid.Column="4" />
+                                </Grid>
+                                <StackLayout.GestureRecognizers >
+                                    <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=ItemTapped}"		
+                                                CommandParameter="{Binding .}">
+
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage x:Name="Failed" Title="Failed">
+        <StackLayout BackgroundColor="Transparent"  >
+            <RefreshView   x:DataType="local:SP_ViewModel"  Command="{Binding LoadPendingDocuments}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" >
+                <CollectionView   x:Name="FailedList"
+                         
+                        ItemsSource="{Binding FailedDocuments}"
+                        SelectionMode="Single" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate  >
+                            <StackLayout   Padding="3" x:DataType="model:Failed">
+                                <Grid x:Name="DRGrid" RowSpacing="0"
+                                          ColumnSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition  Height="16"/>
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Color="LightGray" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="3"   VerticalOptions="FillAndExpand"  ></BoxView>
+
+                                    <Label Margin="0" Grid.Row="1" Text="{Binding OrderRefNo,Mode=TwoWay }" 
+                                            LineBreakMode="NoWrap" 
+                                            HorizontalTextAlignment="Center" 
+                                           VerticalTextAlignment="Start" 
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16" FontAttributes="Bold"  />
+                                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding OrdeConsignee}" 
+                                            LineBreakMode="WordWrap" 
+                                           HorizontalTextAlignment="Start"  
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="1" Grid.Column="3" Text="{Binding OrderDate}  " 
+                                            LineBreakMode="WordWrap"
+                                           HorizontalTextAlignment="Center"   
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDestination}" 
+                                            LineBreakMode="NoWrap" 
+                                           HorizontalTextAlignment="Center"   
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Button IsVisible="False" MinimumWidthRequest="20" AutomationId="{Binding OrderRefNo}"  Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=UpdateFailedCommand}"		
+                                                CommandParameter="{Binding .}" CornerRadius="5"   Text="Failed" Grid.Row="1" Grid.Column="4" />
+                                </Grid>
+                                <StackLayout.GestureRecognizers >
+                                    <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=ItemTapped}"		
+                                                CommandParameter="{Binding .}">
+
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage x:Name="Summary" Title="summary">
+        <StackLayout BackgroundColor="Transparent"  >
+            <RefreshView   x:DataType="local:SP_ViewModel"  Command="{Binding LoadPendingDocuments}" IsRefreshing="{Binding IsBusy ,Mode=OneWay}" >
+                <CollectionView   x:Name="SummaryList"
+                         
+                        ItemsSource="{Binding SummaryDocuments}"
+                        SelectionMode="Single" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate  >
+                            <StackLayout   Padding="3" x:DataType="model:Summary">
+                                <Grid x:Name="DRGrid" RowSpacing="0"
+                                          ColumnSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition  Height="16"/>
+                                        <RowDefinition  />
+                                        <RowDefinition  />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Color="LightGray" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="3"   VerticalOptions="FillAndExpand"  ></BoxView>
+
+                                    <Label Margin="0" Grid.Row="1" Text="{Binding OrderRefNo,Mode=TwoWay }" 
+                                            LineBreakMode="NoWrap" 
+                                            HorizontalTextAlignment="Center" 
+                                           VerticalTextAlignment="Start" 
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16" FontAttributes="Bold"  />
+                                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding OrdeConsignee}" 
+                                            LineBreakMode="WordWrap" 
+                                           HorizontalTextAlignment="Start"  
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="1" Grid.Column="3" Text="{Binding OrderDate}  " 
+                                            LineBreakMode="WordWrap"
+                                           HorizontalTextAlignment="Center"   
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDestination}" 
+                                            LineBreakMode="NoWrap" 
+                                           HorizontalTextAlignment="Center"   
+                                           VerticalTextAlignment="Start" 
+                                           FontAttributes="Bold" 
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="16"/>
+                                    <Button IsVisible="False" MinimumWidthRequest="20" AutomationId="{Binding OrderRefNo}"  Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=UpdateCommand}"		
+                                                CommandParameter="{Binding .}" CornerRadius="5"   Text="Deliver" Grid.Row="1" Grid.Column="4" />
+                                </Grid>
+                                <StackLayout.GestureRecognizers >
+                                    <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:SP_ViewModel}}, Path=ItemTapped}"		
+                                                CommandParameter="{Binding .}">
+
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage>
+</TabbedPage>
